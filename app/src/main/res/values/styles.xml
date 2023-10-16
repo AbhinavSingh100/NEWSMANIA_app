@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="bottomBarButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/averia_serif_libre_light</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/background_white</item>
+    </style>
+
+    <style name="newsTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:fontFamily">@font/averia_serif_libre_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="topButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">#454545</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/averia_serif_libre_light</item>
+    </style>
+</resources>

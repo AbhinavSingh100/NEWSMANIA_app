@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NEWSMANIA" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/background_white</item>
+        <item name="colorSecondary">@color/font_brown</item>
+    </style>
+
+    <style name="Theme.NEWSMANIA" parent="Base.Theme.NEWSMANIA" />
+</resources>
