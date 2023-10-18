@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.kwabenaberko.newsapilib.NewsApiClient;
@@ -29,6 +31,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private TextView topNews;
     private Button bGen, bEnt, bBus, bHea, bSci, bSpo, bTec;
     private SearchView searchView;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -49,57 +52,39 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         bSci.setOnClickListener(this);
         bSpo.setOnClickListener(this);
         bTec.setOnClickListener(this);
+
+//        EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+//        searchEditText.setTextColor(getResources().getColor(R.color.font_brown));
+        progressBar = findViewById(R.id.progressBar2);
         searchView = findViewById(R.id.searchView);
         topNews = findViewById(R.id.textView);
-        topNews.setOnClickListener(new View.OnClickListener() {
+        adapter = new NewsAdapter(articleList);
+        getNews("GENERAL",null);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
-            public void onClick(View v) {
-                adapter = new NewsAdapter(articleList);
-                recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(HomeScreen.this));
-                recyclerView.setAdapter(adapter);
-                //recyclerView = (RecyclerView) LayoutInflater.from(this).inflate(R.layout.news_card, null);
-                getNews("GENERAL",null);
+            public boolean onQueryTextSubmit(String query) {
+                getNews("GENERAL", query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
 
-//        Handler handler = new Handler();
-//        Runnable runnable = new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                adapter = new NewsAdapter(articleList);
-//                recyclerView = findViewById(R.id.recyclerView);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(HomeScreen.this));
-//                recyclerView.setAdapter(adapter);
-//                //recyclerView = (RecyclerView) LayoutInflater.from(this).inflate(R.layout.news_card, null);
-//                getNews();
-//            }
-//        };
-//        handler.postDelayed(runnable, 5000);
-
-          searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-              @Override
-              public boolean onQueryTextSubmit(String query) {
-                  getNews("GENERAL", query);
-                  return true;
-              }
-
-              @Override
-              public boolean onQueryTextChange(String newText) {
-                  return false;
-              }
-          });
-
     }
 
-
-
+    public void setRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(HomeScreen.this));
+        recyclerView.setAdapter(adapter);
+    }
 
     public void getNews(String category, String query) {
-        NewsApiClient newsApiClient = new NewsApiClient("9b81e85cc1eb4fd7b8e67da84f51431e");
+        NewsApiClient newsApiClient = new NewsApiClient(getText(R.string.api_key).toString());
         newsApiClient.getTopHeadlines(
                 new TopHeadlinesRequest.Builder()
                         .language("en")
@@ -112,6 +97,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                progressBar.setVisibility(View.GONE);
                                 articleList.clear();
                                 articleList.addAll(response.getArticles());
                                 for (Article article : articleList) {
@@ -135,6 +121,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
 
         adapter = new NewsAdapter(articles);
         System.out.println("successful");
+        setRecyclerView();
         adapter.updateNewsData(articles);
         adapter.notifyDataSetChanged();
     }
@@ -146,4 +133,5 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         getNews(category, null);
 
     }
+
 }
